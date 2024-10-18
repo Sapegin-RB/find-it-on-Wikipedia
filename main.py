@@ -1,10 +1,19 @@
 from selenium import webdriver
-import time # Модуль позволяет делать задержки в программе
-browser = webdriver.Firefox() # Создаем объект нашего браузера
-browser.get("https://en.wikipedia.org/wiki/Document_Object_Model") # В браузере заходим на указанную страницу
-browser.save_screenshot("dom.png") # Команда делает скриншет открытой страници
-time.sleep(5) # Задержка открытого окна 10 сек.
-browser.get("https://ru.wikipedia.org/wiki/Selenium")
-browser.save_screenshot("selenium.png") # Команда делает скриншет открытой страници
-time.sleep(3)
-browser.refresh()
+from selenium.webdriver import Keys # Команда для ввода текста с клавиатуры
+from selenium.webdriver.common.by import By # для поиска различных элементов на странице через дом
+
+import time
+
+browser = webdriver.Firefox()
+browser.get("https://ru.wikipedia.org/wiki/Заглавная_страница")
+
+assert "Википедия" in browser.title
+time.sleep(5)
+search_box = browser.find_element(By.ID, "searchInput")
+search_box.send_keys("Солнечная система")
+search_box.send_keys(Keys.RETURN)
+
+time.sleep(5)
+a = browser.find_element(By.LINK_TEXT, "Солнечная система")
+a.click()
+
